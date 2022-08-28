@@ -22,8 +22,10 @@ namespace SportsStore
             Configuration = config;
         }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // This method gets called by the runtime.
+        // Use this method to add services to the container.
+        // For more information on how to configure your application,
+        // visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -32,7 +34,12 @@ namespace SportsStore
                 opts.UseSqlServer(
                     Configuration["ConnectionStrings:SportsStoreConnection"]);
             });
-            services.AddScoped<IStoreRepository, EFStoreRepository>();    
+            services.AddScoped<IStoreRepository, EFStoreRepository>();
+            services.AddRazorPages();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,15 +48,31 @@ namespace SportsStore
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("pagination", 
-                    "Product/Page{productPage}",
+                endpoints.MapControllerRoute("catpage",
+                    "{category}/Page{productPage:int}",
                     new { Controller = "Home", action = "Index" });
+                
+                endpoints.MapControllerRoute("page", 
+                    "Product/Page{productPage:int}",
+                    new { Controller = "Home", action = "Index", productPage = 1 });
+
+                endpoints.MapControllerRoute("category",
+                    "{category}",
+                    new { Controller = "Home", action = "Index", productPage = 1 });
+
+                endpoints.MapControllerRoute("pagination",
+                    "Product/Page{productPage}",
+                    new { Controller = "Home", action = "Index", productPage = 1 });
+
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapRazorPages();
             });
+            
             SeedData.EnsurePopulated(app);
         }
     }

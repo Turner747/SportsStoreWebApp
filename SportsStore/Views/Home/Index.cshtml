@@ -1,7 +1,5 @@
 ﻿@model ProductsListViewModel
 
-
-<h2>Welcome to SportsStore</h2>
 <div class="row">
     @foreach (var p in Model.Products){
         <partial name="ProductSummary" model="p" />
@@ -11,4 +9,5 @@
 
 <div page-model="@Model.PagingInfo" page-action="Index"
      page-classes-enabled="true" page-class-normal="btn btn-outline-dark"
-     page-class-selected="btn btn-primary" class="btn-group pull-right m-1"></div>
+     page-class-selected="btn btn-primary" ppage-url-category="@Model.CurrentCategory"
+     class="btn-group pull-right m-1"></div>

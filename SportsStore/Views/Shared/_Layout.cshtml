@@ -6,14 +6,23 @@
     <title>@ViewBag.Title</title>
     <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/lib/css/styles.css" rel="stylesheet"/>
+    <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet"/>
 </head>
 <body>
     <div class="bg-dark text-white p-2">
-        <span class="navbar-brnad ml-2">SPORTS STORE</span>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col navbar-brand">SPORTS STORE</div>
+                <div class="col-6 text-end">
+
+                    <vc:cart-summary/>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row m-1 p-1">
         <div class="col-3" id="categories">
-            Put something here later
+            <vc:navigation-menu />
         </div>
         <div class="col-9">
             @RenderBody()
