@@ -20,7 +20,8 @@ namespace SportsStore.Migrations
                     State = table.Column<string>(nullable: false),
                     ZipCode = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: false),
-                    GiftWrap = table.Column<bool>(nullable: false)
+                    GiftWrap = table.Column<bool>(nullable: false),
+                    Shipped = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
