@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -35,5 +36,8 @@ namespace SportsStore.Models
 
         [BindNever] 
         public bool Shipped { get; set; }
+        
+        public decimal ComputeTotalValue() =>
+            Lines.Sum(e => e.Product.Price * e.Quantity);
     }
 }
